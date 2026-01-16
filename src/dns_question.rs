@@ -24,4 +24,14 @@ impl DnsQuestion {
 
         Ok(())
     }
+
+    pub fn write(&self, buffer: &mut BytePacketBuffer) -> Result<(), Box<dyn Error>> {
+        buffer.write_qname(&self.name)?;
+
+        let typenum = self.qtype.to_num();
+        buffer.write_u16(typenum)?;
+        buffer.write_u16(1)?;
+
+        Ok(())
+    }
 }
